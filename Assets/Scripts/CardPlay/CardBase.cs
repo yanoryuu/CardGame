@@ -26,5 +26,6 @@ public abstract class CardBase : MonoBehaviour
     public virtual void ShowCard() => gameObject.SetActive(true);
     public virtual void HideCard() => gameObject.SetActive(false);
 
-    public abstract void PlayCard();
+    public abstract void PlayCard(CardPlayPresenter presenter,Parameters parameters);
+    
 }

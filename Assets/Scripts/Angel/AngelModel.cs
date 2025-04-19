@@ -29,13 +29,15 @@ public class AngelModel
     private float emotion;
     public float Emotion => emotion;
 
-    // 各パラメーターの加算処理（必要に応じてClamp）
-    public void IncreaseAffinity(float value) => affinity = Mathf.Clamp01(affinity + value);
-    public void IncreaseTrust(float value) => trust = Mathf.Clamp01(trust + value);
-    public void IncreaseJealousy(float value) => jealousy = Mathf.Clamp01(jealousy + value);
-    public void IncreaseRivalry(float value) => rivalry = Mathf.Clamp01(rivalry + value);
-    public void RevealSecret(float value) => secretLevel = Mathf.Clamp01(secretLevel + value);
-    public void SetEmotion(float value) => emotion = Mathf.Clamp(value, -1f, 1f); // -1: 怒り, 0: 普通, 1: 喜び
+    public void UpdateParameter(Parameters parameters)
+    {
+        affinity = parameters.affinity;
+        trust = parameters.trust;
+        jealousy = parameters.jealousy;
+        rivalry = parameters.rivalry;
+        secretLevel = parameters.secretLevel;
+        emotion = parameters.emotion;
+    }
 
     // すべての値を初期化
     public void Initialize()

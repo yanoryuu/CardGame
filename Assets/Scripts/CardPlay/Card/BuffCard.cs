@@ -2,7 +2,7 @@ using UnityEngine;
 
 public class BuffCard : CardBase
 {
-    public override void PlayCard()
+    public override void PlayCard(CardPlayPresenter presenter,Parameters parameters)
     {
         
     }

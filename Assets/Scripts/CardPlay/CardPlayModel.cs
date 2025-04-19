@@ -12,6 +12,9 @@ public class CardPlayModel
     
     private ReactiveProperty<float> currentLikeability = new ReactiveProperty<float>();
 
+    private int actionPoint = 3;
+    public int ActionPoint => actionPoint;
+    
     public CardPlayModel()
     {
         currentLikeability = new ReactiveProperty<float>();
@@ -25,8 +28,10 @@ public class CardPlayModel
         onAddCard.OnNext(card);
     }
 
-    public void PlayCard(CardBase card)
+    public void PlayCard(CardBase card,int playActionPoints)
     {
         currentLikeability.Value -= card.CardData.playCost;
+
+        actionPoint -= playActionPoints;
     }
 }
