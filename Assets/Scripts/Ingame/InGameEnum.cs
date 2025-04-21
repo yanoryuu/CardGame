@@ -9,6 +9,7 @@ public class InGameEnum
         DrawCards,       // カード配布フェーズ
         PlayerTurn,      // プレイヤーのターン（カード選択/会話）
         CardEffect,      // カード効果の発動処理
+        Date,
         Dialogue,        // 会話シーン（カード効果 or イベント）
         EnemyTurn,       // 女神のターン（女神の反応・手札公開など）
         CheckStatus,     // 状態更新（好感度・SP等）

@@ -1,9 +1,9 @@
 using UnityEngine;
 
-public class AttackCard : CardBase
+public class ParameterBoostCard : CardBase
 {
     public override void PlayCard(CardPlayPresenter presenter , Parameters parameters)
     {
-        presenter.AngelPresenter.UpdateAngel(parameters);
+        // 処理はここに記述
     }
 }

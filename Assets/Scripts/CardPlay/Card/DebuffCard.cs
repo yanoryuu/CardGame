@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class BuffCard : CardBase
+public class DebuffCard : CardBase
 {
     public override void PlayCard(CardPlayPresenter presenter , Parameters parameters)
     {

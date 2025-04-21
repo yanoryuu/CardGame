@@ -2,17 +2,39 @@ using UnityEngine;
 
 public class CardFactory : MonoBehaviour
 {
-    [SerializeField] private AttackCard attackCardPrefab;
-    [SerializeField] private BuffCard buffCardPrefab;
-    [SerializeField] private DefenceCard defenceCardPrefab;
+    [Header("Card Prefabs")]
+    [SerializeField] private AffectionUpCard affectionUpCardPrefab;
+    [SerializeField] private PersistentCard persistentCardPrefab;
+    [SerializeField] private HandSwapCard handSwapCardPrefab;
+    [SerializeField] private DebuffCard debuffCardPrefab;
+    [SerializeField] private CardExchangeCard cardExchangeCardPrefab;
+    [SerializeField] private DrawAndTrashCard drawAndTrashCardPrefab;
+    [SerializeField] private SearchCard searchCardPrefab;
+    [SerializeField] private NoAffectionPenaltyCard noAffectionPenaltyCardPrefab;
+    [SerializeField] private ReturnFromGraveCard returnFromGraveCardPrefab;
+    [SerializeField] private ActionIncreaseCard actionIncreaseCardPrefab;
+    [SerializeField] private ParameterBoostCard parameterBoostCardPrefab;
+    [SerializeField] private CostBypassCard costBypassCardPrefab;
+    [SerializeField] private TrashDiscardCard trashDiscardCardPrefab;
+    [SerializeField] private DatingCard datingCardPrefab;
 
     public CardBase CreateCard(CardScriptableObject data, Transform parent)
     {
         CardBase prefab = data.cardType switch
         {
-            CardScriptableObject.cardTypes.Attack => attackCardPrefab,
-            CardScriptableObject.cardTypes.Buff => buffCardPrefab,
-            CardScriptableObject.cardTypes.Defence => defenceCardPrefab,
+            CardScriptableObject.cardTypes.AffectionUp => affectionUpCardPrefab,
+            CardScriptableObject.cardTypes.Persistent => persistentCardPrefab,
+            CardScriptableObject.cardTypes.HandSwap => handSwapCardPrefab,
+            CardScriptableObject.cardTypes.Debuff => debuffCardPrefab,
+            CardScriptableObject.cardTypes.CardExchange => cardExchangeCardPrefab,
+            CardScriptableObject.cardTypes.DrawAndTrash => drawAndTrashCardPrefab,
+            CardScriptableObject.cardTypes.Search => searchCardPrefab,
+            CardScriptableObject.cardTypes.NoAffectionPenalty => noAffectionPenaltyCardPrefab,
+            CardScriptableObject.cardTypes.ReturnFromGrave => returnFromGraveCardPrefab,
+            CardScriptableObject.cardTypes.ActionIncrease => actionIncreaseCardPrefab,
+            CardScriptableObject.cardTypes.ParameterBoost => parameterBoostCardPrefab,
+            CardScriptableObject.cardTypes.TrashDiscard => trashDiscardCardPrefab,
+            CardScriptableObject.cardTypes.Dating => datingCardPrefab,
             _ => null
         };
 
@@ -22,6 +44,6 @@ public class CardFactory : MonoBehaviour
             return null;
         }
 
-        return Instantiate(prefab, parent);
+        return Instantiate(prefab, parent.position,parent.rotation, parent);
     }
 }

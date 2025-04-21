@@ -1,10 +1,14 @@
+using System.Collections.Generic;
+using CardGame;
 using UnityEngine;
 using R3;
 
 public class CardPlayPresenter : MonoBehaviour
 {
     private CardPlayModel model;
+    
     [SerializeField] private CardPlayView view;
+    
     [SerializeField] private CardFactory cardFactory;
     
     [SerializeField] private AngelPresenter angelPresenter;
@@ -87,6 +91,9 @@ public class CardPlayPresenter : MonoBehaviour
         
         //実際の効果
         card.PlayCard(this, parameters);
+        
+        //追加効果
+        if (card.CardData.additionalEffect != null) card.PlayAdditionalEffect(this, parameters);
     }
 
     //カード追加時の演出
@@ -96,5 +103,73 @@ public class CardPlayPresenter : MonoBehaviour
         
         //カード生成用
         model.AddCard(card);
+    }
+    
+    //カード削除
+    public void RemoveCard(CardBase cardDate)
+    {
+        model.RemoveCard(cardDate);
+    }
+    
+    //ランダムでチョイス
+    public CardScriptableObject SelectRandomCard(List<CardScriptableObject> cards)
+    {
+        return cards[Random.Range(0, cards.Count)];
+    }
+    
+    //好感度アップ
+    public void AffectionUp(int affection)
+    {
+        model.AddAffection(affection);   
+    }
+
+    //手札総入れ替え
+    public void HandSwap()
+    {
+        for (int i = 0; i > model.CurrentHoldCard.Count; i++)
+        {
+            AddCard(SelectRandomCard(CardPool.Instance.cardpool));
+        }
+    }
+
+    //選択したカードタイプを選択
+    public List<CardScriptableObject> CollectTargetCardType(CardScriptableObject.cardTypes cardType)
+    {
+        List<CardScriptableObject> targetCardList = new List<CardScriptableObject>();
+        foreach (var card in CardPool.Instance.cardpool)
+        {
+            if (card.cardType == cardType)
+            {
+                targetCardList.Add(card);
+            }
+        }
+        return targetCardList;
+    }
+    
+    //手札にある選択したカードタイプを選択
+    public List<CardBase> CollectTargetCardTypeHoldCards(CardScriptableObject.cardTypes cardType)
+    {
+        List<CardBase> targetCardList = new List<CardBase>();
+        foreach (var card in model.CurrentHoldCard)
+        {
+            if (card.CardData.cardType == cardType)
+            {
+                targetCardList.Add(card);
+            }
+        }
+        return targetCardList;
+    }
+    
+
+    //アクションポイントを増加
+    public void AddActionPoint(int actionPoint)
+    {
+        model.AddActionPoint(actionPoint);
+    }
+    
+    //デートモードに以降
+    public void GoToDate()
+    {
+        
     }
 }

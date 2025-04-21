@@ -1,9 +1,9 @@
 using UnityEngine;
 
-public class BuffCard : CardBase
+public class ReturnFromGraveCard : CardBase
 {
     public override void PlayCard(CardPlayPresenter presenter , Parameters parameters)
     {
-        // 処理はここに記述
+        
     }
 }
