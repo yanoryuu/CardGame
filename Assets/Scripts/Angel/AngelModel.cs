@@ -5,58 +5,55 @@ using UnityEngine;
 /// </summary>
 public class AngelModel
 {
-    // プレイヤーに対する好意度
-    private float affinity;
-    public float Affinity => affinity;
+    // 愛情（プレイヤーに対する好意度）
+    private float affection;
+    public float Affection => affection;
 
-    // プレイヤーに対する信頼度
+    // 信頼度（Trust） - 嘘・裏切りなどで下がる。真剣な関係になるには一定以上必要。
     private float trust;
     public float Trust => trust;
 
-    // 嫉妬度（他のキャラと仲良くすると上がる）
+    // 嫉妬度（Jealousy） - 他キャラとの接触で上昇。イベントや会話に影響を与えることも。
     private float jealousy;
     public float Jealousy => jealousy;
 
-    // ライバル度（他キャラとの競合）
-    private float rivalry;
-    public float Rivalry => rivalry;
+    // 親密度 - 高すぎると友達になりノーマルエンドになることも
+    private float closeness;
+    public float Closeness => closeness;
 
-    // シナリオでの秘密度（未開示の情報など）
-    private float secretLevel;
-    public float SecretLevel => secretLevel;
+    // 秘密（Secret） - 特定条件で発覚するキャラごとの隠し設定。発見でルート分岐あり。
+    private float secret;
+    public float Secret => secret;
 
-    // キャラクターの感情（例：怒り・喜びなどの状態値）
-    private float emotion;
-    public float Emotion => emotion;
+    // 魅力（Charm） - 見た目や性格などの総合的な魅力度
+    private float charm;
+    public float Charm => charm;
 
+    // パラメーターの更新
     public void UpdateParameter(Parameters parameters)
     {
-        affinity = parameters.affinity;
+        affection = parameters.affection;
         trust = parameters.trust;
         jealousy = parameters.jealousy;
-        rivalry = parameters.rivalry;
-        secretLevel = parameters.secretLevel;
-        emotion = parameters.emotion;
+        closeness = parameters.closeness;
+        secret = parameters.secret;
+        charm = parameters.charm;
     }
 
     // すべての値を初期化
     public void Initialize()
     {
-        affinity = 0f;
+        affection = 0f;
         trust = 0f;
         jealousy = 0f;
-        rivalry = 0f;
-        secretLevel = 0f;
-        emotion = 0f;
+        closeness = 0f;
+        secret = 0f;
+        charm = 0f;
     }
 
+    // コンストラクタ
     public AngelModel()
     {
-        affinity = 0f;
-        trust = 0f;
-        jealousy = 0f;
-        rivalry = 0f;
-        secretLevel = 0f;
-        emotion = 0f;
+        Initialize();
     }
-}　　
+}

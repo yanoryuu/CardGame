@@ -44,26 +44,41 @@ public class ResponseData {
     public Parameters parameters;
 }
 
-// 好感度や性格などのパラメーター情報用クラス
+/// <summary>
+/// 好感度や性格などのパラメーター情報用クラス
+/// </summary>
 [Serializable]
-public class Parameters {
-    // プレイヤーに対する好意度
-    public float affinity;
+public class Parameters
+{
+    /// <summary>
+    /// 愛情（プレイヤーに対する好意度）
+    /// </summary>
+    public float affection;
 
-    // プレイヤーに対する信頼度
+    /// <summary>
+    /// 信頼度（Trust） - 嘘・裏切りなどで下がる。真剣な関係になるには一定以上必要。
+    /// </summary>
     public float trust;
 
-    // 嫉妬度（他のキャラと仲良くすると上がる）
+    /// <summary>
+    /// 嫉妬度（Jealousy） - 他キャラとの接触で上昇。イベントや会話に影響を与えることも。
+    /// </summary>
     public float jealousy;
 
-    // ライバル度（他キャラとの競合）
-    public float rivalry;
+    /// <summary>
+    /// 親密度（高すぎると友達になる。ノーマルエンドに繋がるが、他のパラメータが高ければプラスにも働く）
+    /// </summary>
+    public float closeness;
 
-    // シナリオでの秘密度（未開示の情報など）
-    public float secretLevel;
+    /// <summary>
+    /// 秘密（Secret） - 特定条件で発覚するキャラごとの隠し設定。発見でルート分岐あり。
+    /// </summary>
+    public float secret;
 
-    // キャラクターの感情（例：怒り・喜びなどの状態値）
-    public float emotion;
+    /// <summary>
+    /// 魅力（キャラクターの見た目・性格・話し方などの総合的な引力）
+    /// </summary>
+    public float charm;
 }
 
 #endregion

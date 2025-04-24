@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using CardGame;
 using UnityEngine;
 using R3;
+using UnityEngine.UI;
 
 public class CardPlayPresenter : MonoBehaviour
 {
@@ -20,11 +21,20 @@ public class CardPlayPresenter : MonoBehaviour
 
     private ReactiveProperty<bool> finishPlayerTurn;
     public ReactiveProperty<bool> FinishedPlayerTurn => finishPlayerTurn;
+
+    private ReactiveProperty<bool> isDate;
+    public ReactiveProperty<bool> IsDate => isDate;
+
+    private ReactiveProperty<bool> isCouple;
+    public ReactiveProperty<bool> IsCouple => isCouple;
+    
     private void Start()
     {
         Bind();
         model = new CardPlayModel();
         isProcessing = new ReactiveProperty<bool>();
+        finishPlayerTurn = new ReactiveProperty<bool>();
+        isDate = new ReactiveProperty<bool>();
     }
 
     private void StartTurn()
@@ -117,10 +127,10 @@ public class CardPlayPresenter : MonoBehaviour
         return cards[Random.Range(0, cards.Count)];
     }
     
-    //好感度アップ
-    public void AffectionUp(int affection)
+    //マナアップ
+    public void ManaUp(int affection)
     {
-        model.AddAffection(affection);   
+        model.AddMana(affection);   
     }
 
     //手札総入れ替え
@@ -150,6 +160,7 @@ public class CardPlayPresenter : MonoBehaviour
     public List<CardBase> CollectTargetCardTypeHoldCards(CardScriptableObject.cardTypes cardType)
     {
         List<CardBase> targetCardList = new List<CardBase>();
+        
         foreach (var card in model.CurrentHoldCard)
         {
             if (card.CardData.cardType == cardType)
@@ -157,6 +168,7 @@ public class CardPlayPresenter : MonoBehaviour
                 targetCardList.Add(card);
             }
         }
+        
         return targetCardList;
     }
     
@@ -170,6 +182,30 @@ public class CardPlayPresenter : MonoBehaviour
     //デートモードに以降
     public void GoToDate()
     {
-        
+        IsDate.Value = true;
     }
+
+    public void FinishDate()
+    {
+        IsDate.Value = false;
+    }
+    
+    //告白成功
+    public void BeCouple()
+    {
+        isCouple.Value = true;
+    }
+    
+    //カップル別れる
+    public void BreackCouple()
+    {
+        isCouple.Value = false;
+    }
+    //
+    // //継続カードの実装
+    // public void StartPersistet(int persistTrun,CardBase card)
+    // {
+    //     InGameManager.Instance.CurrentTurn.Take(persistTrun)
+    //         .Subscribe(_ => card.PlayAdditionalEffect();
+    // }
 }

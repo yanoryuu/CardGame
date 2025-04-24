@@ -35,15 +35,18 @@ public class CardScriptableObject : ScriptableObject
     public List<cardTypes> searchCardType = new List<cardTypes>();
     
     //追加するActionPoint
-    public int AddAP = 2; 
+    public int addAP = 2; 
+    
+    //効果を与えるターゲットパラメーター
+    public Parameters addParameterNum;
     
     public enum cardTypes
     {
         Debuff,             // 弱体（デバフ）カード（＝ゴミカード）
 
         // パラメータ・ステータス系
-        AffectionUp,        // 好感度増加
-        ParameterBoost,     // パラメータ上昇（弱・強）を包括
+        ManaUp,        // 好感度増加
+        ParameterChange,     // パラメータ上昇（弱・強）を包括
         ActionIncrease,     // 行動回数を増やす
 
         // 持続・状態系

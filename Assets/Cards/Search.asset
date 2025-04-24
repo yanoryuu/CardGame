@@ -10,17 +10,24 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 63d3c4806dc6249409f5d6322560cca6, type: 3}
-  m_Name: Card
+  m_Name: Search
   m_EditorClassIdentifier: 
   additionalEffect: []
   playCostAffection: 1
   playActionPoints: 1
-  cardType: 4
-  cardSprite: {fileID: 0}
+  cardType: 11
+  cardSprite: {fileID: -1233334858102731710, guid: 5ddc44643aaf5d74680ce6d44c235971, type: 3}
   affectionUpNum: 0
-  keepTurns: 1
+  keepTurns: 3
   searchCardType: 
-  AddAP: 2
+  addAP: 2
+  addParameterNum:
+    affection: 0
+    trust: 0
+    jealousy: 0
+    closeness: 0
+    secret: 0
+    charm: 0
   references:
     version: 2
     RefIds: []

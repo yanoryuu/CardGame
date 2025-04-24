@@ -13,7 +13,7 @@ public class CardFactory : MonoBehaviour
     [SerializeField] private NoAffectionPenaltyCard noAffectionPenaltyCardPrefab;
     [SerializeField] private ReturnFromGraveCard returnFromGraveCardPrefab;
     [SerializeField] private ActionIncreaseCard actionIncreaseCardPrefab;
-    [SerializeField] private ParameterBoostCard parameterBoostCardPrefab;
+    [SerializeField] private ParameterBoostCard parameterChangeCardPrefab;
     [SerializeField] private CostBypassCard costBypassCardPrefab;
     [SerializeField] private TrashDiscardCard trashDiscardCardPrefab;
     [SerializeField] private DatingCard datingCardPrefab;
@@ -22,7 +22,7 @@ public class CardFactory : MonoBehaviour
     {
         CardBase prefab = data.cardType switch
         {
-            CardScriptableObject.cardTypes.AffectionUp => affectionUpCardPrefab,
+            CardScriptableObject.cardTypes.ManaUp => affectionUpCardPrefab,
             CardScriptableObject.cardTypes.Persistent => persistentCardPrefab,
             CardScriptableObject.cardTypes.HandSwap => handSwapCardPrefab,
             CardScriptableObject.cardTypes.Debuff => debuffCardPrefab,
@@ -32,7 +32,7 @@ public class CardFactory : MonoBehaviour
             CardScriptableObject.cardTypes.NoAffectionPenalty => noAffectionPenaltyCardPrefab,
             CardScriptableObject.cardTypes.ReturnFromGrave => returnFromGraveCardPrefab,
             CardScriptableObject.cardTypes.ActionIncrease => actionIncreaseCardPrefab,
-            CardScriptableObject.cardTypes.ParameterBoost => parameterBoostCardPrefab,
+            CardScriptableObject.cardTypes.ParameterChange => parameterChangeCardPrefab,
             CardScriptableObject.cardTypes.TrashDiscard => trashDiscardCardPrefab,
             CardScriptableObject.cardTypes.Dating => datingCardPrefab,
             _ => null

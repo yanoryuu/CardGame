@@ -66,15 +66,19 @@ public class CardScriptableObjectEditor : Editor
 
         switch (cardType)
         {
-            case CardScriptableObject.cardTypes.AffectionUp:
+            case CardScriptableObject.cardTypes.ManaUp:
                 EditorGUILayout.PropertyField(serializedObject.FindProperty("affectionUpNum"));
                 break;
-            case CardScriptableObject.cardTypes.ParameterBoost:
+            case CardScriptableObject.cardTypes.ParameterChange:
+                EditorGUILayout.PropertyField(serializedObject.FindProperty("addParameterNum"));
+                break;
             case CardScriptableObject.cardTypes.ActionIncrease:
-                EditorGUILayout.PropertyField(serializedObject.FindProperty("AddAP"));
+                EditorGUILayout.PropertyField(serializedObject.FindProperty("addAP"));
                 break;
             case CardScriptableObject.cardTypes.Debuff:
             case CardScriptableObject.cardTypes.Persistent:
+                EditorGUILayout.PropertyField(serializedObject.FindProperty("keepTurns"));
+                break;
             case CardScriptableObject.cardTypes.ReturnFromGrave:
             case CardScriptableObject.cardTypes.Search:
                 EditorGUILayout.PropertyField(serializedObject.FindProperty("searchCardType"));

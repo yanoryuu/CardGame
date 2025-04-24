@@ -21,11 +21,11 @@ public class CardPlayModel
     public R3.Observable<CardBase> OnAddCard => onAddCard;
     
     //現在の好感度（マナ）
-    private ReactiveProperty<float> currentAffection = new ReactiveProperty<float>();
+    private ReactiveProperty<float> currentMana = new ReactiveProperty<float>();
     
     //好感度の最大値
-    private ReactiveProperty<float> maxAffection = new ReactiveProperty<float>();
-    public ReactiveProperty<float> MaxAffection => maxAffection;
+    private ReactiveProperty<float> maxMana = new ReactiveProperty<float>();
+    public ReactiveProperty<float> MaxMana => maxMana;
 
     //行動回数
     private int actionPoint = 3;
@@ -33,7 +33,7 @@ public class CardPlayModel
     
     public CardPlayModel()
     {
-        currentAffection = new ReactiveProperty<float>();
+        currentMana = new ReactiveProperty<float>();
         currentHoldCard = new List<CardBase>();
         onAddCard = new Subject<CardBase>();
     }
@@ -51,16 +51,16 @@ public class CardPlayModel
 
     public void PlayCard(CardBase card,int playActionPoints)
     {
-        currentAffection.Value -= card.CardData.playCostAffection;
+        currentMana.Value -= card.CardData.playCostAffection;
 
         actionPoint -= playActionPoints;
         
         playedCards.Add(card);
     }
 
-    public void AddAffection(int affection)
+    public void AddMana(int affection)
     {
-        maxAffection.Value += affection;
+        maxMana.Value += affection;
     }
 
     public void AddActionPoint(int actionPoint)
