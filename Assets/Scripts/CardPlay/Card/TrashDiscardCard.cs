@@ -2,7 +2,7 @@ using UnityEngine;
 
 public class TrashDiscardCard : CardBase
 {
-    public override void PlayCard(CardPlayPresenter presenter , Parameters parameters)
+    public override void PlayCard(CardPlayPresenter presenter)
     {
         var DebuffCards = presenter.CollectTargetCardTypeHoldCards(CardScriptableObject.cardTypes.Debuff);
 

@@ -32,15 +32,15 @@ public class AngelModel
     // パラメーターの更新
     public void UpdateParameter(Parameters parameters)
     {
-        affection = parameters.affection;
-        trust = parameters.trust;
-        jealousy = parameters.jealousy;
-        closeness = parameters.closeness;
-        secret = parameters.secret;
-        charm = parameters.charm;
+        affection += parameters.affection;
+        trust += parameters.trust;
+        jealousy += parameters.jealousy;
+        closeness += parameters.closeness;
+        secret += parameters.secret;
+        charm += parameters.charm;
     }
-
-    // すべての値を初期化
+    
+    // コンストラクタ
     public void Initialize()
     {
         affection = 0f;
@@ -50,8 +50,7 @@ public class AngelModel
         secret = 0f;
         charm = 0f;
     }
-
-    // コンストラクタ
+    // すべての値を初期化
     public AngelModel()
     {
         Initialize();

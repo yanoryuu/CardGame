@@ -2,7 +2,7 @@ using UnityEngine;
 
 public class ReturnFromGraveCard : CardBase
 {
-    public override void PlayCard(CardPlayPresenter presenter , Parameters parameters)
+    public override void PlayCard(CardPlayPresenter presenter)
     {
         
     }

@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using R3;
 using UnityEngine;
+using UnityEngine.InputSystem.Android;
 
 namespace CardGame
 {
@@ -34,6 +35,8 @@ namespace CardGame
             cardPlayPresenter.IsDate.Where(x =>x)
                 .Subscribe(_=>ChangeState(InGameEnum.GameState.Date))
                 .AddTo(this);
+
+            model.CurrentIngameState.Subscribe(x => InGameManager.Instance.ChangeState(x));
         }
 
         private InGameEnum.GameState ChangeState(InGameEnum.GameState state)
@@ -45,6 +48,9 @@ namespace CardGame
                     
                     //ゲーム開始時のドロー
                     cardPlayPresenter.StartDrawCards(startCardPool,startGetCardNum);
+                    
+                    //UniTaskで演出を入れる
+                    ChangeState(InGameEnum.GameState.PlayerTurn);
                     break;
                 case InGameEnum.GameState.PlayerTurn:
                     Debug.Log("State: PlayerTurn");

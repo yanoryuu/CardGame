@@ -24,17 +24,17 @@ public abstract class CardBase : MonoBehaviour
     }
 
     //追加効果
-    public virtual void PlayAdditionalEffect(CardPlayPresenter presenter, Parameters parameters)
+    public virtual void PlayAdditionalEffect(CardPlayPresenter presenter)
     {
         foreach (var additionalEffect in _cardData.additionalEffect)
         {
-            additionalEffect.PlayCard(presenter, parameters);
+            additionalEffect.PlayCard(presenter);
         }
     }
 
     public virtual void ShowCard() => gameObject.SetActive(true);
     public virtual void HideCard() => gameObject.SetActive(false);
 
-    public abstract void PlayCard(CardPlayPresenter presenter,Parameters parameters);
+    public abstract void PlayCard(CardPlayPresenter presenter);
     
 }

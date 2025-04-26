@@ -1,9 +1,10 @@
 using UnityEngine;
 
-public class ParameterBoostCard : CardBase
+public class ParameterAddCard : CardBase
 {
-    public override void PlayCard(CardPlayPresenter presenter , Parameters parameters)
+    public override void PlayCard(CardPlayPresenter presenter)
     {
         // 処理はここに記述
+        presenter.AngelPresenter.UpdateAngel(_cardData.addParameterNum);
     }
 }

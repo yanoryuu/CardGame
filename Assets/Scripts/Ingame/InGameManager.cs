@@ -6,9 +6,17 @@ public class InGameManager : MonoBehaviour
     private ReactiveProperty<int> currentTurn = new ReactiveProperty<int>(0);
     public ReactiveProperty<int> CurrentTurn => currentTurn;
 
+    private InGameEnum.GameState currentState;
+    public InGameEnum.GameState CurrentState => currentState;
+
     public void NextTurn()
     {
         currentTurn.Value++;
+    }
+
+    public void ChangeState(InGameEnum.GameState state)
+    {
+        currentState = state;
     }
     
     private static InGameManager instance;

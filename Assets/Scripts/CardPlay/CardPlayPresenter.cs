@@ -15,13 +15,16 @@ public class CardPlayPresenter : MonoBehaviour
     [SerializeField] private AngelPresenter angelPresenter;
     public AngelPresenter AngelPresenter => angelPresenter;
 
+    //現在選択中のカード
     private CardBase currentSelectedCard;
 
     private ReactiveProperty<bool> isProcessing;
-
+    
+    //デート中（デート中は告白成功率アップ）
     private ReactiveProperty<bool> isDate;
     public ReactiveProperty<bool> IsDate => isDate;
 
+    //カップル状態
     private ReactiveProperty<bool> isCouple;
     public ReactiveProperty<bool> IsCouple => isCouple;
     
@@ -39,6 +42,7 @@ public class CardPlayPresenter : MonoBehaviour
             .Subscribe(cardData =>
             {
                 cardData.cardButton.OnClickAsObservable()
+                    .Where(_ => InGameManager.Instance.CurrentState == InGameEnum.GameState.PlayerTurn)
                     .Subscribe(_ =>
                     {
                         currentSelectedCard = cardData;
@@ -71,7 +75,7 @@ public class CardPlayPresenter : MonoBehaviour
     }
 
     //カード使用時の演出
-    private void PlayCard(CardBase card,Parameters parameters = null, int playActionPoint = 1)
+    private void PlayCard(CardBase card, int playActionPoint = 1)
     {
         if (playActionPoint > model.ActionPoint)
         {
@@ -86,10 +90,10 @@ public class CardPlayPresenter : MonoBehaviour
         view.PlayCard(card);
         
         //実際の効果
-        card.PlayCard(this, parameters);
+        card.PlayCard(this);
         
         //追加効果
-        if (card.CardData.additionalEffect != null) card.PlayAdditionalEffect(this, parameters);
+        if (card.CardData.additionalEffect != null) card.PlayAdditionalEffect(this);
     }
 
     //カード追加時の演出

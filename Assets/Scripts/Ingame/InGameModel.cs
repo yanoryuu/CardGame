@@ -1,3 +1,4 @@
+using R3;
 using UnityEngine;
 
 namespace CardGame
@@ -5,17 +6,17 @@ namespace CardGame
     public class InGameModel 
     {
         
-        private InGameEnum.GameState currentIngameState;
-        public InGameEnum.GameState CurrentIngameState => currentIngameState;
+        private ReactiveProperty<InGameEnum.GameState> currentIngameState;
+        public ReactiveProperty<InGameEnum.GameState>  CurrentIngameState => currentIngameState;
         
         public InGameModel()
         {
-            currentIngameState = InGameEnum.GameState.Default;
+            currentIngameState.Value = InGameEnum.GameState.Default;
         }
 
         public void ChangeState(InGameEnum.GameState state)
         {
-            currentIngameState = state;
+            currentIngameState.Value = state;
         }
     }
 
