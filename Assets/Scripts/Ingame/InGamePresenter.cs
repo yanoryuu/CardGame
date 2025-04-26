@@ -1,5 +1,4 @@
-using System;
-using System.Reflection;
+using System.Collections.Generic;
 using R3;
 using UnityEngine;
 
@@ -14,9 +13,12 @@ namespace CardGame
         
         [SerializeField]
         private CardPlayPresenter cardPlayPresenter;
-        
-        //現在のターン
-        private int currentTurn;
+
+        //ゲーム開始時のドロープール
+        [SerializeField] private List<CardScriptableObject.cardTypes> startCardPool = new List<CardScriptableObject.cardTypes>();
+
+        //ゲーム開始時にカードを引く枚数
+        [SerializeField] private int startGetCardNum = 5;
 
         private void Start()
         {
@@ -29,18 +31,9 @@ namespace CardGame
 
         private void Bind()
         {
-            cardPlayPresenter.FinishedPlayerTurn.Where(x=>x)
-                .Subscribe(_ =>
-                {
-                    currentTurn++;
-                })
-                .AddTo(this);
-            
             cardPlayPresenter.IsDate.Where(x =>x)
                 .Subscribe(_=>ChangeState(InGameEnum.GameState.Date))
                 .AddTo(this);
-            
-            
         }
 
         private InGameEnum.GameState ChangeState(InGameEnum.GameState state)
@@ -49,7 +42,9 @@ namespace CardGame
             {
                 case InGameEnum.GameState.DrawCards:
                     Debug.Log("State: DrawCards");
-                    // カード配布処理
+                    
+                    //ゲーム開始時のドロー
+                    cardPlayPresenter.StartDrawCards(startCardPool,startGetCardNum);
                     break;
                 case InGameEnum.GameState.PlayerTurn:
                     Debug.Log("State: PlayerTurn");

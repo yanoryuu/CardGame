@@ -165,6 +165,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   view: {fileID: 689162133}
   cardFactory: {fileID: 1275565403}
+  angelPresenter: {fileID: 0}
 --- !u!1 &336994146
 GameObject:
   m_ObjectHideFlags: 0
@@ -420,6 +421,54 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   cardParent: {fileID: 1559379361}
   playButton: {fileID: 1687457150}
+--- !u!1 &691666360
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 691666362}
+  - component: {fileID: 691666361}
+  m_Layer: 0
+  m_Name: Ingame
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &691666361
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 691666360}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5e4529aaf65f7ec459d774756ae6adf2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  view: {fileID: 0}
+  cardPlayPresenter: {fileID: 0}
+  startCardPool: 0200000002000000
+  startGetCardNum: 5
+--- !u!4 &691666362
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 691666360}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &967757810
 GameObject:
   m_ObjectHideFlags: 0
@@ -633,9 +682,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9b376882ea5f8b7459404407a91f64bb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  attackCardPrefab: {fileID: 5586602157004845383, guid: c5006d289572540e7b89e4c3a495dd2a, type: 3}
-  buffCardPrefab: {fileID: 5146580191903067196, guid: c5e269a23e1219a4fb1f06e6b6a8c651, type: 3}
-  defenceCardPrefab: {fileID: 2051325139113810675, guid: fbcd7ad99f93745b69f6fb550511e9c7, type: 3}
+  affectionUpCardPrefab: {fileID: 0}
+  persistentCardPrefab: {fileID: 0}
+  handSwapCardPrefab: {fileID: 0}
+  debuffCardPrefab: {fileID: 0}
+  cardExchangeCardPrefab: {fileID: 0}
+  drawAndTrashCardPrefab: {fileID: 0}
+  searchCardPrefab: {fileID: 0}
+  noAffectionPenaltyCardPrefab: {fileID: 0}
+  returnFromGraveCardPrefab: {fileID: 0}
+  actionIncreaseCardPrefab: {fileID: 0}
+  parameterChangeCardPrefab: {fileID: 0}
+  trashDiscardCardPrefab: {fileID: 0}
+  datingCardPrefab: {fileID: 0}
 --- !u!4 &1275565404
 Transform:
   m_ObjectHideFlags: 0
@@ -816,3 +875,4 @@ SceneRoots:
   - {fileID: 967757812}
   - {fileID: 689162132}
   - {fileID: 1275565404}
+  - {fileID: 691666362}

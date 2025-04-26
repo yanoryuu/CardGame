@@ -19,9 +19,6 @@ public class CardPlayPresenter : MonoBehaviour
 
     private ReactiveProperty<bool> isProcessing;
 
-    private ReactiveProperty<bool> finishPlayerTurn;
-    public ReactiveProperty<bool> FinishedPlayerTurn => finishPlayerTurn;
-
     private ReactiveProperty<bool> isDate;
     public ReactiveProperty<bool> IsDate => isDate;
 
@@ -33,13 +30,7 @@ public class CardPlayPresenter : MonoBehaviour
         Bind();
         model = new CardPlayModel();
         isProcessing = new ReactiveProperty<bool>();
-        finishPlayerTurn = new ReactiveProperty<bool>();
         isDate = new ReactiveProperty<bool>();
-    }
-
-    private void StartTurn()
-    {
-        finishPlayerTurn.Value = false;
     }
 
     private void Bind()
@@ -47,9 +38,6 @@ public class CardPlayPresenter : MonoBehaviour
         model.OnAddCard
             .Subscribe(cardData =>
             {
-                // プレハブをFactory経由で生成
-                cardData.SetCard(cardData.CardData); // データをセット
-
                 cardData.cardButton.OnClickAsObservable()
                     .Subscribe(_ =>
                     {
@@ -71,17 +59,15 @@ public class CardPlayPresenter : MonoBehaviour
                 }
             })
             .AddTo(this);
-        
-        isProcessing.Where(x=>x==false)
-            .Subscribe(_ =>
-            {
-                if (model.ActionPoint <= 0)
-                {
-                    finishPlayerTurn.Value = true;
-                }
-            })
-            .AddTo(this);
-        
+    }
+    
+    //ゲーム開始時のドロー
+    public void StartDrawCards(List<CardScriptableObject.cardTypes> cardData,int drawCount)
+    {
+        for (int i = 0; i < drawCount; i++)
+        {
+            AddCard(SelectRandomCard(CollectTargetCardType(cardData)));
+        }
     }
 
     //カード使用時の演出
@@ -143,14 +129,18 @@ public class CardPlayPresenter : MonoBehaviour
     }
 
     //選択したカードタイプを選択
-    public List<CardScriptableObject> CollectTargetCardType(CardScriptableObject.cardTypes cardType)
+    public List<CardScriptableObject> CollectTargetCardType(List<CardScriptableObject.cardTypes> cardType)
     {
         List<CardScriptableObject> targetCardList = new List<CardScriptableObject>();
         foreach (var card in CardPool.Instance.cardpool)
         {
-            if (card.cardType == cardType)
+            foreach (var Type in cardType)
             {
-                targetCardList.Add(card);
+                if (card.cardType == Type)
+                {
+                    targetCardList.Add(card);
+                    break;
+                }
             }
         }
         return targetCardList;

@@ -86,6 +86,8 @@ public class CardScriptableObjectEditor : Editor
             case CardScriptableObject.cardTypes.NoAffectionPenalty:
             case CardScriptableObject.cardTypes.HandSwap:
             case CardScriptableObject.cardTypes.DrawAndTrash:
+                EditorGUILayout.PropertyField(serializedObject.FindProperty("searchCardType"));
+                break;
             case CardScriptableObject.cardTypes.TrashDiscard:
             case CardScriptableObject.cardTypes.CardExchange:
             case CardScriptableObject.cardTypes.Dating:

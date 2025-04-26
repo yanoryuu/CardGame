@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -40,6 +41,7 @@ public class CardScriptableObject : ScriptableObject
     //効果を与えるターゲットパラメーター
     public Parameters addParameterNum;
     
+    [Serializable]
     public enum cardTypes
     {
         Debuff,             // 弱体（デバフ）カード（＝ゴミカード）

@@ -18,9 +18,9 @@ public class CardFactory : MonoBehaviour
     [SerializeField] private TrashDiscardCard trashDiscardCardPrefab;
     [SerializeField] private DatingCard datingCardPrefab;
 
-    public CardBase CreateCard(CardScriptableObject data, Transform parent)
+    public CardBase CreateCard(CardScriptableObject date, Transform parent)
     {
-        CardBase prefab = data.cardType switch
+        CardBase prefab = date.cardType switch
         {
             CardScriptableObject.cardTypes.ManaUp => affectionUpCardPrefab,
             CardScriptableObject.cardTypes.Persistent => persistentCardPrefab,
@@ -40,10 +40,12 @@ public class CardFactory : MonoBehaviour
 
         if (prefab == null)
         {
-            Debug.LogError("Card prefab not found for type: " + data.cardType);
+            Debug.LogError("Card prefab not found for type: " + date.cardType);
             return null;
         }
 
-        return Instantiate(prefab, parent.position,parent.rotation, parent);
+        var card = Instantiate(prefab, parent.position, parent.rotation, parent);
+        card.SetCard(date);
+        return card;
     }
 }

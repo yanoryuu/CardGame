@@ -23,7 +23,5 @@ namespace CardGame
         }
         
         public List<CardScriptableObject> cardpool = new List<CardScriptableObject>();
-        
-        public List<CardScriptableObject> affectionCards = new List<CardScriptableObject>();
     }
 }

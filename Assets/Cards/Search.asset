@@ -19,7 +19,7 @@ MonoBehaviour:
   cardSprite: {fileID: -1233334858102731710, guid: 5ddc44643aaf5d74680ce6d44c235971, type: 3}
   affectionUpNum: 0
   keepTurns: 3
-  searchCardType: 
+  searchCardType: 0200000003000000
   addAP: 2
   addParameterNum:
     affection: 0
