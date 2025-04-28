@@ -1,10 +1,10 @@
 fileFormatVersion: 2
-guid: 74b440b23b7b64ee6916e3860a6af762
+guid: d803f20cee6fbc24fbbe4f666dc66e6b
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: -8633253176391537618
-    second: Star 2_0
+      213: -6245658341238653524
+    second: "\u56F3\u66F8\u9928-\u30E9\u30D5_0"
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -139,13 +139,13 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: Star 2_0
+      name: "\u56F3\u66F8\u9928-\u30E9\u30D5_0"
       rect:
         serializedVersion: 2
         x: 0
         y: 0
-        width: 293
-        height: 278
+        width: 1920
+        height: 1080
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -154,8 +154,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: e2c6b2d1af5803880800000000000000
-      internalID: -8633253176391537618
+      spriteID: cadb30e54d6f259a0800000000000000
+      internalID: -6245658341238653524
       vertices: []
       indices: 
       edges: []
@@ -173,8 +173,7 @@ TextureImporter:
     secondaryTextures: []
     spriteCustomMetadata:
       entries: []
-    nameFileIdTable:
-      Star 2_0: -8633253176391537618
+    nameFileIdTable: {}
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
