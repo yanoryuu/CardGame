@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class AffectionUpCard : CardBase
+public class ManaUpCard : CardBase
 {
     public override void PlayCard(CardPlayPresenter presenter )
     {

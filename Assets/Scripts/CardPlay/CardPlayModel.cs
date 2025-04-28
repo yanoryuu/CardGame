@@ -4,8 +4,8 @@ using R3;
 public class CardPlayModel
 {
     // 現在の保持カード
-    private List<CardBase> currentHoldCard;
-    public List<CardBase> CurrentHoldCard => currentHoldCard;
+    private ReactiveProperty<List<CardBase>> currentHoldCard;
+    public ReactiveProperty<List<CardBase>> CurrentHoldCard => currentHoldCard;
     
     // 最大カード保持数
     private int maxHoldCards; // 初期値を仮で5に設定（必要なら外から設定可能にしてもOK）
@@ -27,45 +27,47 @@ public class CardPlayModel
     public ReactiveProperty<float> MaxMana => maxMana;
 
     // 行動回数
-    private int actionPoint;
-    public int ActionPoint => actionPoint;
+    private ReactiveProperty<int> actionPoint;
+    public ReactiveProperty<int> ActionPoint => actionPoint;
     
     //コンストラクタ
     public CardPlayModel()
     {
-        currentHoldCard = new List<CardBase>();
+        currentHoldCard = new ReactiveProperty<List<CardBase>>(new List<CardBase>());
         playedCards = new List<CardBase>();
         onAddCard = new Subject<CardBase>();
         currentMana = new ReactiveProperty<float>();
         maxMana = new ReactiveProperty<float>();
+        actionPoint = new ReactiveProperty<int>();
         
-        actionPoint = 3;
+        actionPoint.Value = 3;
         maxHoldCards = 8;
     }
     
     public void AddCard(CardBase card)
     {
-        if (currentHoldCard.Count >= maxHoldCards)
+        if (currentHoldCard.Value.Count >= maxHoldCards)
         {
             // 最大手札数に達していたら追加しない
             UnityEngine.Debug.LogWarning($"カードを追加できません。最大保持数({maxHoldCards})に達しています。");
             return;
         }
         
-        currentHoldCard.Add(card);
+        currentHoldCard.Value.Add(card);
         onAddCard.OnNext(card);
     }
 
     public void RemoveCard(CardBase card)
     {
-        currentHoldCard.Remove(card);
+        currentHoldCard.Value.Remove(card);
     }
 
     public void PlayCard(CardBase card, int playActionPoints)
     {
         currentMana.Value -= card.CardData.playCostAffection;
-        actionPoint -= playActionPoints;
+        actionPoint.Value -= playActionPoints;
         playedCards.Add(card);
+        
     }
 
     public void AddMana(int affection)
@@ -75,6 +77,6 @@ public class CardPlayModel
 
     public void AddActionPoint(int point)
     {
-        this.actionPoint += point;
+        this.actionPoint.Value += point;
     }
 }

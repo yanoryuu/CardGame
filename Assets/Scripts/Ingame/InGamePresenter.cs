@@ -1,9 +1,8 @@
 using System.Collections.Generic;
 using R3;
 using UnityEngine;
-using UnityEngine.InputSystem.Android;
 
-namespace CardGame
+namespace Ingame
 {
     public class InGamePresenter : MonoBehaviour
     {
@@ -32,15 +31,22 @@ namespace CardGame
 
         private void Bind()
         {
-            cardPlayPresenter.IsDate.Where(x =>x)
-                .Subscribe(_=>ChangeState(InGameEnum.GameState.Date))
+            model.CurrentIngameState.Subscribe(x => InGameManager.Instance.ChangeState(x))
                 .AddTo(this);
-
-            model.CurrentIngameState.Subscribe(x => InGameManager.Instance.ChangeState(x));
+            
+            view.TurnEndButton.OnClickAsObservable()
+                .Where(_=>model.CurrentIngameState.Value == InGameEnum.GameState.PlayerTurn)
+                .Subscribe(_ =>
+                {
+                    ChangeState(InGameEnum.GameState.EnemyTurn);
+                })
+                .AddTo(this);
+            
         }
 
-        private InGameEnum.GameState ChangeState(InGameEnum.GameState state)
+        private void ChangeState(InGameEnum.GameState state)
         {
+            model.ChangeState(state);
             switch (state)
             {
                 case InGameEnum.GameState.DrawCards:
@@ -59,6 +65,7 @@ namespace CardGame
                 case InGameEnum.GameState.CardEffect:
                     Debug.Log("State: CardEffect");
                     // カード効果の実行処理
+                    ChangeState(InGameEnum.GameState.PlayerTurn);
                     break;
                 case InGameEnum.GameState.Date:
                     Debug.Log("State: Date");
@@ -70,20 +77,30 @@ namespace CardGame
                     break;
                 case InGameEnum.GameState.EnemyTurn:
                     Debug.Log("State: EnemyTurn");
-                    // 女神の反応や行動処理
+                    // 女神の反応や行動処理UniTaskで
+                    
+                    ChangeState(InGameEnum.GameState.CheckStatus);
                     break;
                 case InGameEnum.GameState.CheckStatus:
                     Debug.Log("State: CheckStatus");
                     // 好感度、SPなどの状態更新
+                    
+                    ChangeState(InGameEnum.GameState.FinishTurn);
                     break;
                 case InGameEnum.GameState.FinishTurn:
                     Debug.Log("State: FinishTurn");
                     //ターンを進める
                     InGameManager.Instance.NextTurn();
+                    
+                    ChangeState(InGameEnum.GameState.PlayerTurn);
                     break;
+                
                 case InGameEnum.GameState.Confession:
                     Debug.Log("State: Confession");
-                    // 告白フェーズ（選択肢や演出）
+                    // 告白フェーズ（選択肢や演出）UniTaskで告白フェーズが終われば
+                    
+                    ChangeState(InGameEnum.GameState.CheckStatus);
+                    
                     break;
                 case InGameEnum.GameState.Ending:
                     Debug.Log("State: Ending");
@@ -94,8 +111,6 @@ namespace CardGame
                     // ゲームオーバー処理
                     break;
             }
-            model.ChangeState(state);
-            return state;
         }
     } 
 }

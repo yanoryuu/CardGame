@@ -30,10 +30,12 @@ public class CardPlayPresenter : MonoBehaviour
     
     private void Start()
     {
-        Bind();
+        
         model = new CardPlayModel();
         isProcessing = new ReactiveProperty<bool>();
         isDate = new ReactiveProperty<bool>();
+        
+        Bind();
     }
 
     private void Bind()
@@ -43,14 +45,16 @@ public class CardPlayPresenter : MonoBehaviour
             {
                 cardData.cardButton.OnClickAsObservable()
                     .Where(_ => InGameManager.Instance.CurrentState == InGameEnum.GameState.PlayerTurn)
-                    .Subscribe(_ =>
+                    .Subscribe(x =>
                     {
+                        Debug.Log($"Select {x.ToString()}");
                         currentSelectedCard = cardData;
                     })
                     .AddTo(cardData);
 
                 // ビューに追加
                 view.AddCard(cardData);
+                Debug.Log($"{cardData}のカードを追加しました。");
             })
             .AddTo(this);
 
@@ -60,8 +64,13 @@ public class CardPlayPresenter : MonoBehaviour
                 if (currentSelectedCard != null)
                 {
                     PlayCard(currentSelectedCard);
+                    
+                    Debug.Log($"{currentSelectedCard}をプレイ");
                 }
             })
+            .AddTo(this);
+        
+        model.ActionPoint.Subscribe(x=>view.SetApStars(x))
             .AddTo(this);
     }
     
@@ -77,7 +86,7 @@ public class CardPlayPresenter : MonoBehaviour
     //カード使用時の演出
     private void PlayCard(CardBase card, int playActionPoint = 1)
     {
-        if (playActionPoint > model.ActionPoint)
+        if (playActionPoint > model.ActionPoint.Value)
         {
             Debug.Log("Not enough action point");
             return;
@@ -94,6 +103,9 @@ public class CardPlayPresenter : MonoBehaviour
         
         //追加効果
         if (card.CardData.additionalEffect != null) card.PlayAdditionalEffect(this);
+        
+        //カードを削除演出、削除
+        RemoveCard(card);
     }
 
     //カード追加時の演出
@@ -103,12 +115,18 @@ public class CardPlayPresenter : MonoBehaviour
         
         //カード生成用
         model.AddCard(card);
+        
+        view.ConfigCard(model.CurrentHoldCard.Value);
     }
     
     //カード削除
     public void RemoveCard(CardBase cardDate)
     {
         model.RemoveCard(cardDate);
+        
+        view.RemoveCard(cardDate);
+        
+        view.ConfigCard(model.CurrentHoldCard.Value);
     }
     
     //ランダムでチョイス
@@ -126,7 +144,7 @@ public class CardPlayPresenter : MonoBehaviour
     //手札総入れ替え
     public void HandSwap()
     {
-        for (int i = 0; i > model.CurrentHoldCard.Count; i++)
+        for (int i = 0; i > model.CurrentHoldCard.Value.Count; i++)
         {
             AddCard(SelectRandomCard(CardPool.Instance.cardpool));
         }
@@ -155,7 +173,7 @@ public class CardPlayPresenter : MonoBehaviour
     {
         List<CardBase> targetCardList = new List<CardBase>();
         
-        foreach (var card in model.CurrentHoldCard)
+        foreach (var card in model.CurrentHoldCard.Value)
         {
             if (card.CardData.cardType == cardType)
             {
