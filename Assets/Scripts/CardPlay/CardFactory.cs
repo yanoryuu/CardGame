@@ -3,7 +3,7 @@ using UnityEngine;
 public class CardFactory : MonoBehaviour
 {
     [Header("Card Prefabs")]
-    [SerializeField] private AffectionUpCard affectionUpCardPrefab;
+    [SerializeField] private ManaUpCard affectionUpCardPrefab;
     [SerializeField] private PersistentCard persistentCardPrefab;
     [SerializeField] private HandSwapCard handSwapCardPrefab;
     [SerializeField] private DebuffCard debuffCardPrefab;

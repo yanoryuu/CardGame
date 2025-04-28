@@ -6,6 +6,7 @@ public class InGameManager : MonoBehaviour
     private ReactiveProperty<int> currentTurn = new ReactiveProperty<int>(0);
     public ReactiveProperty<int> CurrentTurn => currentTurn;
 
+    [SerializeField]
     private InGameEnum.GameState currentState;
     public InGameEnum.GameState CurrentState => currentState;
 
@@ -26,7 +27,7 @@ public class InGameManager : MonoBehaviour
         {
             if (instance == null)
             {
-                instance = FindObjectOfType<InGameManager>();
+                instance = FindAnyObjectByType<InGameManager>();
                 if (instance == null)
                 {
                     GameObject obj = new GameObject("InGameManager");

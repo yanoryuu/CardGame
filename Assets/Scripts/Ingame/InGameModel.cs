@@ -1,12 +1,12 @@
 using R3;
 using UnityEngine;
 
-namespace CardGame
+namespace Ingame
 {
     public class InGameModel 
     {
         
-        private ReactiveProperty<InGameEnum.GameState> currentIngameState;
+        private ReactiveProperty<InGameEnum.GameState> currentIngameState = new ReactiveProperty<InGameEnum.GameState>();
         public ReactiveProperty<InGameEnum.GameState>  CurrentIngameState => currentIngameState;
         
         public InGameModel()

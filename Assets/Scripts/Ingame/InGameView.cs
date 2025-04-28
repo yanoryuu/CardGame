@@ -1,19 +1,17 @@
 using UnityEngine;
+using UnityEngine.Rendering;
+using UnityEngine.UI;
 
-namespace CardGame
+namespace Ingame
 {
     public class InGameView : MonoBehaviour
     {
-        // Start is called once before the first execution of Update after the MonoBehaviour is created
-        void Start()
-        {
+        [SerializeField]private Button turnEndButton;
+        public Button TurnEndButton => turnEndButton;
         
-        }
-
-        // Update is called once per frame
-        void Update()
+        public void Initialize()
         {
-        
+            
         }
     }
 }
