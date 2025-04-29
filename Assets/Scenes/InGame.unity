@@ -661,7 +661,7 @@ GameObject:
   - component: {fileID: 599190125}
   - component: {fileID: 599190124}
   m_Layer: 5
-  m_Name: Image
+  m_Name: AP
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1051,7 +1051,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   cardParent: {fileID: 1559379361}
   playButton: {fileID: 1687457150}
-  apStars: []
+  apStars:
+  - {fileID: 2106606560}
+  - {fileID: 415736882}
+  - {fileID: 537517609}
 --- !u!4 &839830480
 Transform:
   m_ObjectHideFlags: 0

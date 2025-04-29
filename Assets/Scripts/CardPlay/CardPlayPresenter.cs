@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using CardGame;
+using Ingame;
 using UnityEngine;
 using R3;
 using UnityEngine.UI;
@@ -44,7 +45,7 @@ public class CardPlayPresenter : MonoBehaviour
             .Subscribe(cardData =>
             {
                 cardData.cardButton.OnClickAsObservable()
-                    .Where(_ => InGameManager.Instance.CurrentState == InGameEnum.GameState.PlayerTurn)
+                    .Where(_ => InGameManager.Instance.CurrentState.Value == InGameEnum.GameState.PlayerTurn)
                     .Subscribe(x =>
                     {
                         Debug.Log($"Select {x.ToString()}");
@@ -71,6 +72,10 @@ public class CardPlayPresenter : MonoBehaviour
             .AddTo(this);
         
         model.ActionPoint.Subscribe(x=>view.SetApStars(x))
+            .AddTo(this);
+        
+        InGameManager.Instance.CurrentState.Where(x => x==InGameEnum.GameState.PlayerTurn)
+            .Subscribe(_=>model.Initialize())
             .AddTo(this);
     }
     

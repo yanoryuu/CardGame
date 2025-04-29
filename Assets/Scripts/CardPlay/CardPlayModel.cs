@@ -79,4 +79,10 @@ public class CardPlayModel
     {
         this.actionPoint.Value += point;
     }
+
+    public void Initialize()
+    {
+        currentMana = maxMana;
+        actionPoint.Value = 3;
+    }
 }
