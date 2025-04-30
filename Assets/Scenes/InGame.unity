@@ -942,7 +942,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   view: {fileID: 1555092105}
   cardPlayPresenter: {fileID: 258177560}
-  angelPresenter: {fileID: 0}
+  angelPresenter: {fileID: 2085006921}
   startCardPool: 02000000010000000300000004000000050000000700000008000000090000000b0000000c000000
   startGetCardNum: 5
 --- !u!4 &691666362
