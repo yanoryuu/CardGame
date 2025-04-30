@@ -77,6 +77,13 @@ public class CardPlayPresenter : MonoBehaviour
         InGameManager.Instance.CurrentState.Where(x => x==InGameEnum.GameState.PlayerTurn)
             .Subscribe(_=>model.Initialize())
             .AddTo(this);
+        
+        model.CurrentMana.Subscribe(x=>view.SetManaVar(x,model.ManaMaxCap.Value))
+            .AddTo(this);
+        
+        model.MaxMana
+            .Subscribe(currentMaxMana => view.SetMaxManaVar(currentMaxMana, model.ManaMaxCap.Value))
+            .AddTo(this);
     }
     
     //ゲーム開始時のドロー

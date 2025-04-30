@@ -13,12 +13,16 @@ namespace Ingame
         
         [SerializeField]
         private CardPlayPresenter cardPlayPresenter;
+        
+        [SerializeField]
+        private AngelPresenter angelPresenter;
 
         //ゲーム開始時のドロープール
         [SerializeField] private List<CardScriptableObject.cardTypes> startCardPool = new List<CardScriptableObject.cardTypes>();
 
         //ゲーム開始時にカードを引く枚数
         [SerializeField] private int startGetCardNum = 5;
+        
 
         private void Start()
         {
@@ -42,6 +46,10 @@ namespace Ingame
                 })
                 .AddTo(this);
             
+            view.TalkButton.OnClickAsObservable()
+                .Where(_=>model.CurrentIngameState.Value == InGameEnum.GameState.PlayerTurn)
+                .Subscribe(_=>ChangeState(InGameEnum.GameState.Talk))
+                .AddTo(this);
         }
 
         private void ChangeState(InGameEnum.GameState state)
@@ -71,13 +79,20 @@ namespace Ingame
                     Debug.Log("State: Date");
                     // デートイベント開始
                     break;
-                case InGameEnum.GameState.Dialogue:
+                case InGameEnum.GameState.Talk:
                     Debug.Log("State: Dialogue");
                     // 会話演出や分岐表示
+                    
+                    ChangeState(InGameEnum.GameState.EnemyTurn);
                     break;
                 case InGameEnum.GameState.EnemyTurn:
                     Debug.Log("State: EnemyTurn");
                     // 女神の反応や行動処理UniTaskで
+                    
+                    //会話の返り値を利用
+                    
+                    // angelPresenter.UpdateAngel(parameter);
+                    // cardPlayPresenter.AddCard(card);
                     
                     ChangeState(InGameEnum.GameState.CheckStatus);
                     break;
