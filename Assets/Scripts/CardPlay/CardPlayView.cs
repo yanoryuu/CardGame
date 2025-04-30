@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using JetBrains.Annotations;
 using UnityEditor;
 using UnityEngine;
+using UnityEngine.Android;
 using UnityEngine.UI;
 
 public class CardPlayView : MonoBehaviour
@@ -13,7 +14,13 @@ public class CardPlayView : MonoBehaviour
     public Button PlayButton => playButton;
 
     [SerializeField] private List<Image> apStars;
-    public List<Image> ApStars => apStars;
+
+    [SerializeField] private Image manaVar;
+
+    [SerializeField] private Image manaMaxVar;
+
+    //カードの感覚
+    [SerializeField] private float spacing = 150f;
     
     public void ShowCard() => cardParent.SetActive(true);
     public void HideCard() => cardParent.SetActive(false);
@@ -42,7 +49,6 @@ public class CardPlayView : MonoBehaviour
     public void ConfigCard(List<CardBase> cards)
     {
         // 親オブジェクトの中心からカードを並べるイメージ
-        float spacing = 150f; // カード同士の間隔（適宜調整）
         float startX = -(cards.Count - 1) * spacing * 0.5f; // 最初のカードのX位置
 
         for (int i = 0; i < cards.Count; i++)
@@ -62,8 +68,20 @@ public class CardPlayView : MonoBehaviour
         
         for (int i = 0; i < restAp; i++)
         {
-            var star = ApStars[i];
+            var star = apStars[i];
             star.enabled = true;
         }
+    }
+
+    public void SetManaVar(int currentMana,float maxManaCap)
+    {
+        Debug.Log(currentMana/maxManaCap);
+        manaVar.fillAmount = currentMana / maxManaCap;
+    }
+
+    public void SetMaxManaVar(float currentMaxMana, float maxManaCap)
+    {   
+        Debug.Log(currentMaxMana / maxManaCap);
+        manaMaxVar.fillAmount = currentMaxMana / maxManaCap;
     }
 }

@@ -1,5 +1,7 @@
 using System.Collections.Generic;
 using R3;
+using UnityEngine;
+using UnityEngine.Rendering.Universal;
 
 public class CardPlayModel
 {
@@ -20,11 +22,16 @@ public class CardPlayModel
     public Observable<CardBase> OnAddCard => onAddCard;
     
     // 現在の好感度（マナ）
-    private ReactiveProperty<float> currentMana;
+    private ReactiveProperty<int> currentMana;
+    public ReactiveProperty<int> CurrentMana => currentMana;
     
-    // 好感度の最大値
-    private ReactiveProperty<float> maxMana;
-    public ReactiveProperty<float> MaxMana => maxMana;
+    // マナの最大値
+    private ReactiveProperty<int> maxMana;
+    public ReactiveProperty<int> MaxMana => maxMana;
+    
+    //マナの最大値の最大値
+    private ReactiveProperty<int> manaMaxCap;
+    public ReactiveProperty<int> ManaMaxCap => manaMaxCap;
 
     // 行動回数
     private ReactiveProperty<int> actionPoint;
@@ -36,8 +43,9 @@ public class CardPlayModel
         currentHoldCard = new ReactiveProperty<List<CardBase>>(new List<CardBase>());
         playedCards = new List<CardBase>();
         onAddCard = new Subject<CardBase>();
-        currentMana = new ReactiveProperty<float>();
-        maxMana = new ReactiveProperty<float>();
+        currentMana = new ReactiveProperty<int>();
+        maxMana = new ReactiveProperty<int>();
+        manaMaxCap = new ReactiveProperty<int>(CardPlayConst.maxManaCap);
         actionPoint = new ReactiveProperty<int>();
         
         actionPoint.Value = 3;
@@ -68,6 +76,7 @@ public class CardPlayModel
         actionPoint.Value -= playActionPoints;
         playedCards.Add(card);
         
+        Debug.Log($"残りのMana{currentMana.Value}");
     }
 
     public void AddMana(int affection)
@@ -78,5 +87,13 @@ public class CardPlayModel
     public void AddActionPoint(int point)
     {
         this.actionPoint.Value += point;
+    }
+
+    public void Initialize()
+    {
+        Debug.Log("Initialize");
+        maxMana.Value = CardPlayConst.initMaxMana;
+        currentMana.Value = maxMana.Value;
+        actionPoint.Value = 3;
     }
 }

@@ -7,8 +7,8 @@ public class InGameManager : MonoBehaviour
     public ReactiveProperty<int> CurrentTurn => currentTurn;
 
     [SerializeField]
-    private InGameEnum.GameState currentState;
-    public InGameEnum.GameState CurrentState => currentState;
+    private ReactiveProperty<InGameEnum.GameState> currentState　 = new ReactiveProperty<InGameEnum.GameState>();
+    public ReactiveProperty<InGameEnum.GameState> CurrentState => currentState;
 
     public void NextTurn()
     {
@@ -17,7 +17,7 @@ public class InGameManager : MonoBehaviour
 
     public void ChangeState(InGameEnum.GameState state)
     {
-        currentState = state;
+        currentState.Value = state;
     }
     
     private static InGameManager instance;
