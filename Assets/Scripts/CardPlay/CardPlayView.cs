@@ -1,9 +1,7 @@
 using System.Collections.Generic;
-using JetBrains.Annotations;
-using UnityEditor;
 using UnityEngine;
-using UnityEngine.Android;
 using UnityEngine.UI;
+using TMPro;
 
 public class CardPlayView : MonoBehaviour
 {
@@ -25,6 +23,8 @@ public class CardPlayView : MonoBehaviour
     public void ShowCard() => cardParent.SetActive(true);
     public void HideCard() => cardParent.SetActive(false);
 
+    [SerializeField] private TextMeshProUGUI restCardsText;
+    
     public void AddCard(CardBase card)
     {
         card.ShowCard();
@@ -84,5 +84,10 @@ public class CardPlayView : MonoBehaviour
     {   
         Debug.Log(currentMaxMana / maxManaCap);
         manaMaxVar.fillAmount = currentMaxMana / maxManaCap;
+    }
+    
+    public void SetRestCards(int restCards)
+    {
+        restCardsText.text = $"RestCards: {restCards}";
     }
 }
