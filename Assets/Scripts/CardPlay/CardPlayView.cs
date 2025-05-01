@@ -61,6 +61,7 @@ public class CardPlayView : MonoBehaviour
 
     public void SetApStars(int restAp)
     {
+        Debug.Log(restAp);
         foreach (var ap in apStars)
         {
             ap.enabled = false;

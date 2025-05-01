@@ -50,6 +50,11 @@ namespace Ingame
                 .Where(_=>model.CurrentIngameState.Value == InGameEnum.GameState.PlayerTurn)
                 .Subscribe(_=>ChangeState(InGameEnum.GameState.Talk))
                 .AddTo(this);
+            
+            InGameManager.Instance.CurrentTurn.Subscribe(x=>view.SetCurrentTurn(x))
+                .AddTo(this);
+            
+            
         }
 
         private void ChangeState(InGameEnum.GameState state)
@@ -65,6 +70,9 @@ namespace Ingame
                     
                     //UniTaskで演出を入れる
                     ChangeState(InGameEnum.GameState.PlayerTurn);
+                    
+                    //1ターン目
+                    InGameManager.Instance.NextTurn();
                     break;
                 case InGameEnum.GameState.PlayerTurn:
                     Debug.Log("State: PlayerTurn");
