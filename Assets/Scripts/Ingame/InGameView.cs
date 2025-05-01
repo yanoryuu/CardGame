@@ -17,7 +17,6 @@ namespace Ingame
         [SerializeField] private TextMeshProUGUI turnText;
         
         [SerializeField] private TextMeshProUGUI nextEventText;
-
         public void SetCurrentTurn(int turn)
         {
             turnText.text = $"Turn: {turn}";

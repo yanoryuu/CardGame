@@ -14,53 +14,70 @@ public class CardScriptableObjectEditor : Editor
 
     public override void OnInspectorGUI()
     {
-        // 更新開始
         serializedObject.Update();
 
-        // 共通のカードプロパティ
+        // 共通プロパティの描画
         EditorGUILayout.PropertyField(serializedObject.FindProperty("playCostAffection"));
         EditorGUILayout.PropertyField(serializedObject.FindProperty("playActionPoints"));
         EditorGUILayout.PropertyField(serializedObject.FindProperty("cardSprite"));
         EditorGUILayout.PropertyField(serializedObject.FindProperty("cardType"));
 
-        // ▼ additionalEffect の手動描画（自動描画しない）
-        EditorGUILayout.Space(10);
-        EditorGUILayout.LabelField("Additional Effects", EditorStyles.boldLabel);
+        var useReqProp = serializedObject.FindProperty("useRequirmentPlayerParameter");
+        EditorGUILayout.PropertyField(useReqProp);
 
-        for (int i = 0; i < additionalEffectProp.arraySize; i++)
+        if (useReqProp.boolValue)
         {
-            var element = additionalEffectProp.GetArrayElementAtIndex(i);
-            if (element.managedReferenceValue == null) continue;
-
-            var effectObj = element.managedReferenceValue as AdditionalEffect;
-            if (effectObj != null)
+            var paramProp = serializedObject.FindProperty("requirmentPlayerParameter");
+            if (paramProp != null)
             {
-                EditorGUILayout.BeginVertical("box");
-                effectObj.effectName = EditorGUILayout.TextField("Effect Name", effectObj.effectName); // 名前の表示・編集
-                EditorGUILayout.LabelField("Type", effectObj.GetType().Name); // 型名の表示
-
-                if (GUILayout.Button("Remove"))
-                {
-                    additionalEffectProp.DeleteArrayElementAtIndex(i);
-                    break; // リストが変化したのでループを中断
-                }
-
-                EditorGUILayout.EndVertical();
+                EditorGUILayout.PropertyField(paramProp, true);
+            }
+            else
+            {
+                EditorGUILayout.HelpBox("requirmentPlayerParameter is null or could not be found.", MessageType.Warning);
             }
         }
 
-        // ▼ ボタンで CostBypassCard を追加
-        if (GUILayout.Button("Add CostBypass"))
+        // AdditionalEffect の手動描画
+        EditorGUILayout.Space(10);
+        EditorGUILayout.LabelField("Additional Effects", EditorStyles.boldLabel);
+
+        if (additionalEffectProp != null)
         {
-            additionalEffectProp.arraySize++;
-            var newElement = additionalEffectProp.GetArrayElementAtIndex(additionalEffectProp.arraySize - 1);
-            newElement.managedReferenceValue = new CostBypassCard
+            for (int i = 0; i < additionalEffectProp.arraySize; i++)
             {
-                effectName = "Cost Bypass"
-            };
+                var element = additionalEffectProp.GetArrayElementAtIndex(i);
+                if (element.managedReferenceValue == null) continue;
+
+                var effectObj = element.managedReferenceValue as AdditionalEffect;
+                if (effectObj != null)
+                {
+                    EditorGUILayout.BeginVertical("box");
+                    effectObj.effectName = EditorGUILayout.TextField("Effect Name", effectObj.effectName);
+                    EditorGUILayout.LabelField("Type", effectObj.GetType().Name);
+
+                    if (GUILayout.Button("Remove"))
+                    {
+                        additionalEffectProp.DeleteArrayElementAtIndex(i);
+                        break;
+                    }
+
+                    EditorGUILayout.EndVertical();
+                }
+            }
+
+            if (GUILayout.Button("Add CostBypass"))
+            {
+                additionalEffectProp.arraySize++;
+                var newElement = additionalEffectProp.GetArrayElementAtIndex(additionalEffectProp.arraySize - 1);
+                newElement.managedReferenceValue = new CostBypassCard
+                {
+                    effectName = "Cost Bypass"
+                };
+            }
         }
 
-        // ▼ カードタイプによる個別プロパティ表示
+        // カードタイプごとの個別フィールド描画
         var cardTypeProp = serializedObject.FindProperty("cardType");
         var cardType = (CardScriptableObject.cardTypes)cardTypeProp.enumValueIndex;
 
@@ -81,8 +98,6 @@ public class CardScriptableObjectEditor : Editor
                 break;
             case CardScriptableObject.cardTypes.ReturnFromGrave:
             case CardScriptableObject.cardTypes.Search:
-                EditorGUILayout.PropertyField(serializedObject.FindProperty("searchCardType"));
-                break;
             case CardScriptableObject.cardTypes.NoAffectionPenalty:
             case CardScriptableObject.cardTypes.HandSwap:
             case CardScriptableObject.cardTypes.DrawAndTrash:
@@ -95,7 +110,6 @@ public class CardScriptableObjectEditor : Editor
                 break;
         }
 
-        // 更新反映
         serializedObject.ApplyModifiedProperties();
     }
 }

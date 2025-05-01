@@ -1,13 +1,20 @@
+using System;
 using System.Collections.Generic;
 using R3;
 using UnityEngine;
-using UnityEngine.Rendering.Universal;
 
+/// <summary>
+/// ゲーム中のカードプレイに関するモデル
+/// </summary>
 public class CardPlayModel
 {
     // 現在の保持カード
     private ReactiveProperty<List<CardBase>> currentHoldCard;
     public ReactiveProperty<List<CardBase>> CurrentHoldCard => currentHoldCard;
+    
+    // 現在の保持カードの数
+    private ReactiveProperty<int> currentHoldCardIndex;
+    public ReactiveProperty<int> CurrentHoldCardIndex => currentHoldCardIndex;
     
     // 最大カード保持数
     private int maxHoldCards; // 初期値を仮で5に設定（必要なら外から設定可能にしてもOK）
@@ -21,79 +28,80 @@ public class CardPlayModel
     private Subject<CardBase> onAddCard;
     public Observable<CardBase> OnAddCard => onAddCard;
     
-    // 現在の好感度（マナ）
-    private ReactiveProperty<int> currentMana;
-    public ReactiveProperty<int> CurrentMana => currentMana;
-    
-    // マナの最大値
-    private ReactiveProperty<int> maxMana;
-    public ReactiveProperty<int> MaxMana => maxMana;
-    
-    //マナの最大値の最大値
+    // マナの最大値の最大値（例えば装備などで拡張できる最大上限）
     private ReactiveProperty<int> manaMaxCap;
     public ReactiveProperty<int> ManaMaxCap => manaMaxCap;
-
-    // 行動回数
-    private ReactiveProperty<int> actionPoint;
-    public ReactiveProperty<int> ActionPoint => actionPoint;
+    // プレイヤーのステータス（ReactiveProperty使用）
+    private PlayerParameterRuntime playerParameter;
+    public PlayerParameterRuntime PlayerParameter => playerParameter;
     
-    //コンストラクタ
+    // コンストラクタ
     public CardPlayModel()
     {
+        // プレイヤーパラメータの初期化（ReactiveProperty）
+        playerParameter = new PlayerParameterRuntime();
+
+        // 保持カード、インデックスなどの初期化
         currentHoldCard = new ReactiveProperty<List<CardBase>>(new List<CardBase>());
+        currentHoldCardIndex = new ReactiveProperty<int>(0);
         playedCards = new List<CardBase>();
         onAddCard = new Subject<CardBase>();
-        currentMana = new ReactiveProperty<int>();
-        maxMana = new ReactiveProperty<int>();
         manaMaxCap = new ReactiveProperty<int>(CardPlayConst.maxManaCap);
-        actionPoint = new ReactiveProperty<int>();
-        
-        actionPoint.Value = 3;
-        maxHoldCards = 8;
+            
+        playerParameter.ActionPoint.Value = 3; // 初期AP設定
+        maxHoldCards = CardPlayConst.maxHoldCardNum;
     }
-    
+
+    // カードを追加
     public void AddCard(CardBase card)
     {
         if (currentHoldCard.Value.Count >= maxHoldCards)
         {
             // 最大手札数に達していたら追加しない
-            UnityEngine.Debug.LogWarning($"カードを追加できません。最大保持数({maxHoldCards})に達しています。");
+            Debug.LogWarning($"カードを追加できません。最大保持数({maxHoldCards})に達しています。");
             return;
         }
-        
+
+        currentHoldCardIndex.Value++;
         currentHoldCard.Value.Add(card);
         onAddCard.OnNext(card);
     }
 
+    // カードを削除
     public void RemoveCard(CardBase card)
     {
         currentHoldCard.Value.Remove(card);
+        currentHoldCardIndex.Value--;
     }
 
+    // カードプレイ時の処理（マナ消費、AP消費、墓地送り）
     public void PlayCard(CardBase card, int playActionPoints)
     {
-        currentMana.Value -= card.CardData.playCostAffection;
-        actionPoint.Value -= playActionPoints;
+        playerParameter.CurrentMana.Value -= card.CardData.playCostAffection;
+        playerParameter.ActionPoint.Value -= playActionPoints;
         playedCards.Add(card);
         
-        Debug.Log($"残りのMana{currentMana.Value}");
+        Debug.Log($"残りのMana: {playerParameter.CurrentMana.Value}");
     }
 
+    // マナを増やす
     public void AddMana(int affection)
     {
-        currentMana.Value += affection;
+        playerParameter.CurrentMana.Value += affection;
     }
 
+    // 行動ポイントを追加
     public void AddActionPoint(int point)
     {
-        this.actionPoint.Value += point;
+        playerParameter.ActionPoint.Value += point;
     }
 
+    // 初期化（ターン開始や再スタート用）
     public void Initialize()
     {
         Debug.Log("Initialize");
-        maxMana.Value = CardPlayConst.initMaxMana;
-        currentMana.Value = maxMana.Value;
-        actionPoint.Value = 3;
+        playerParameter.MaxMana.Value = CardPlayConst.initMaxMana;
+        playerParameter.CurrentMana.Value = playerParameter.MaxMana.Value;
+        playerParameter.ActionPoint.Value = 3;
     }
 }

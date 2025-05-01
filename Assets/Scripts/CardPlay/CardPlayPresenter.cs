@@ -71,18 +71,22 @@ public class CardPlayPresenter : MonoBehaviour
             })
             .AddTo(this);
         
-        model.ActionPoint.Subscribe(x=>view.SetApStars(x))
+        model.PlayerParameter.ActionPoint.Subscribe(x=>view.SetApStars(x))
             .AddTo(this);
         
         InGameManager.Instance.CurrentState.Where(x => x==InGameEnum.GameState.PlayerTurn)
             .Subscribe(_=>model.Initialize())
             .AddTo(this);
         
-        model.CurrentMana.Subscribe(x=>view.SetManaVar(x,model.ManaMaxCap.Value))
+        model.PlayerParameter.CurrentMana
+            .Subscribe(x => view.SetManaVar(x, model.ManaMaxCap.Value))
+            .AddTo(this);
+
+        model.PlayerParameter.MaxMana
+            .Subscribe(currentMaxMana => view.SetMaxManaVar(currentMaxMana, model.ManaMaxCap.Value))
             .AddTo(this);
         
-        model.MaxMana
-            .Subscribe(currentMaxMana => view.SetMaxManaVar(currentMaxMana, model.ManaMaxCap.Value))
+        model.CurrentHoldCardIndex.Subscribe(x=>view.SetRestCards(x))
             .AddTo(this);
     }
     
@@ -98,7 +102,7 @@ public class CardPlayPresenter : MonoBehaviour
     //カード使用時の演出
     private void PlayCard(CardBase card, int playActionPoint = 1)
     {
-        if (playActionPoint > model.ActionPoint.Value)
+        if (playActionPoint > model.PlayerParameter.ActionPoint.Value)
         {
             Debug.Log("Not enough action point");
             return;

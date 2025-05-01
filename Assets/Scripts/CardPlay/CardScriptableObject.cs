@@ -18,6 +18,12 @@ public class CardScriptableObject : ScriptableObject
     //プレイに必要なアクションポイント
     public int playActionPoints = 1; 
     
+    //プレイに必要な最低限のプレイヤーのパラメーターを利用するかのフラグ
+    public bool useRequirmentPlayerParameter;
+    
+    //プレイに必要な最低限のプレイヤーのパラメーター
+    public PlayerParameter requirmentPlayerParameter = new PlayerParameter();
+    
     public  cardTypes cardType;
     
     public  Sprite cardSprite;
