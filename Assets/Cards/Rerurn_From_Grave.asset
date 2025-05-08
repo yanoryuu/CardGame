@@ -15,8 +15,16 @@ MonoBehaviour:
   additionalEffect: []
   playCostAffection: 1
   playActionPoints: 1
+  useRequirmentPlayerParameter: 0
+  requirmentPlayerParameter:
+    MaxMana: 0
+    CurrentMana: 0
+    Brave: 0
+    Charm: 0
+    Strength: 0
+    ActionPoint: 0
   cardType: 10
-  cardSprite: {fileID: -1233334858102731710, guid: 5ddc44643aaf5d74680ce6d44c235971, type: 3}
+  cardSprite: {fileID: 8849871155598803730, guid: c38f4071d102ad1418ea100da409e48a, type: 3}
   affectionUpNum: 0
   keepTurns: 3
   searchCardType: 
