@@ -8,14 +8,11 @@ public class CardPlayView : MonoBehaviour
     [SerializeField] private GameObject cardParent;
     public Transform CardParent => cardParent.transform;
     
-    [SerializeField] private Button playButton;
-    public Button PlayButton => playButton;
-
-    [SerializeField] private List<Image> apStars;
-
-    [SerializeField] private Image manaVar;
-
-    [SerializeField] private Image manaMaxVar;
+    [SerializeField] private Button setButton;
+    public Button SetButton => setButton;
+    
+    [SerializeField] private Button talkButton;
+    public Button TalkButton => talkButton;
 
     //カードの感覚
     [SerializeField] private float spacing = 150f;
@@ -57,33 +54,6 @@ public class CardPlayView : MonoBehaviour
             card.transform.localPosition = new Vector3(startX + i * spacing, 0, 0); // 横に並べる
             card.transform.localRotation = Quaternion.identity; // 回転リセット（必要なら）
         }
-    }
-
-    public void SetApStars(int restAp)
-    {
-        Debug.Log(restAp);
-        foreach (var ap in apStars)
-        {
-            ap.enabled = false;
-        }
-        
-        for (int i = 0; i < restAp; i++)
-        {
-            var star = apStars[i];
-            star.enabled = true;
-        }
-    }
-
-    public void SetManaVar(int currentMana,float maxManaCap)
-    {
-        Debug.Log(currentMana/maxManaCap);
-        manaVar.fillAmount = currentMana / maxManaCap;
-    }
-
-    public void SetMaxManaVar(float currentMaxMana, float maxManaCap)
-    {   
-        Debug.Log(currentMaxMana / maxManaCap);
-        manaMaxVar.fillAmount = currentMaxMana / maxManaCap;
     }
     
     public void SetRestCards(int restCards)

@@ -18,6 +18,10 @@ public class CardPlayPresenter : MonoBehaviour
 
     //現在選択中のカード
     private CardBase currentSelectedCard;
+    
+    //使用カード（最大３枚）
+    private List<CardBase> setCards = new List<CardBase>();
+    public List<CardBase> SetCards => setCards;
 
     private ReactiveProperty<bool> isProcessing;
     
@@ -29,14 +33,22 @@ public class CardPlayPresenter : MonoBehaviour
     private ReactiveProperty<bool> isCouple;
     public ReactiveProperty<bool> IsCouple => isCouple;
     
+    //ゲーム開始時のドロープール
+    [SerializeField] private List<CardScriptableObject.cardTypes> startCardPool = new List<CardScriptableObject.cardTypes>();
+
+    //ゲーム開始時にカードを引く枚数
+    [SerializeField] private int startGetCardNum = 5;
+
     private void Start()
     {
         
         model = new CardPlayModel();
         isProcessing = new ReactiveProperty<bool>();
         isDate = new ReactiveProperty<bool>();
-        
         Bind();
+        
+        //ゲーム開始時のドロー
+        StartDrawCards(startCardPool,startGetCardNum);
     }
 
     private void Bind()
@@ -59,54 +71,38 @@ public class CardPlayPresenter : MonoBehaviour
             })
             .AddTo(this);
 
-        view.PlayButton.OnClickAsObservable()
+        view.SetButton.OnClickAsObservable()
             .Subscribe(_ =>
             {
                 if (currentSelectedCard != null)
                 {
-                    PlayCard(currentSelectedCard);
-                    
-                    Debug.Log($"{currentSelectedCard}をプレイ");
+                    SetCard(currentSelectedCard);
                 }
             })
             .AddTo(this);
         
-        model.PlayerParameter.ActionPoint.Subscribe(x=>view.SetApStars(x))
+        view.TalkButton.OnClickAsObservable()
+            .Subscribe(_ =>
+            {
+                foreach (var card in SetCards)
+                { 
+                    PlayCard(card);
+                }
+            })
             .AddTo(this);
         
         InGameManager.Instance.CurrentState.Where(x => x==InGameEnum.GameState.PlayerTurn)
             .Subscribe(_=>model.Initialize())
             .AddTo(this);
         
-        model.PlayerParameter.CurrentMana
-            .Subscribe(x => view.SetManaVar(x, model.ManaMaxCap.Value))
-            .AddTo(this);
-
-        model.PlayerParameter.MaxMana
-            .Subscribe(currentMaxMana => view.SetMaxManaVar(currentMaxMana, model.ManaMaxCap.Value))
-            .AddTo(this);
-        
         model.CurrentHoldCardIndex.Subscribe(x=>view.SetRestCards(x))
             .AddTo(this);
-    }
-    
-    //ゲーム開始時のドロー
-    public void StartDrawCards(List<CardScriptableObject.cardTypes> cardData,int drawCount)
-    {
-        for (int i = 0; i < drawCount; i++)
-        {
-            AddCard(SelectRandomCard(CollectTargetCardType(cardData)));
-        }
     }
 
     //カード使用時の演出
     private void PlayCard(CardBase card, int playActionPoint = 1)
     {
-        if (playActionPoint > model.PlayerParameter.ActionPoint.Value)
-        {
-            Debug.Log("Not enough action point");
-            return;
-        }
+        Debug.Log($"使用：{card}");
         
         //コストの増減など
         model.PlayCard(card,playActionPoint);
@@ -122,6 +118,35 @@ public class CardPlayPresenter : MonoBehaviour
         
         //カードを削除演出、削除
         RemoveCard(card);
+    }
+
+    //使用予定カードに入れる
+    private void SetCard(CardBase card)
+    {
+        foreach (var setcard in setCards)
+        {
+            if (setcard == card)
+            {
+                OutCard(card);
+                return;
+            }
+        }
+        
+        if (setCards.Count >= 3)
+        {
+            Debug.Log("使用カードは３枚までです。");
+            return;
+        }
+        
+        Debug.Log($"セットしました。{card}");
+        setCards.Add(card);
+    }
+    
+    //使用予定カードから抜く
+    private void OutCard(CardBase card)
+    {
+        Debug.Log($"抜きました{card}");
+        setCards.Remove(card);
     }
 
     //カード追加時の演出
@@ -149,12 +174,6 @@ public class CardPlayPresenter : MonoBehaviour
     public CardScriptableObject SelectRandomCard(List<CardScriptableObject> cards)
     {
         return cards[Random.Range(0, cards.Count)];
-    }
-    
-    //マナアップ
-    public void ManaUp(int affection)
-    {
-        model.AddMana(affection);   
     }
 
     //手札総入れ替え
@@ -224,16 +243,13 @@ public class CardPlayPresenter : MonoBehaviour
         isCouple.Value = true;
     }
     
-    //カップル別れる
-    public void BreackCouple()
+    //ゲーム開始時のドロー
+    public void StartDrawCards(List<CardScriptableObject.cardTypes> cardData,int drawCount)
     {
-        isCouple.Value = false;
+        for (int i = 0; i < drawCount; i++)
+        {
+            AddCard(SelectRandomCard(CollectTargetCardType(cardData)));
+        }
     }
-    //
-    // //継続カードの実装
-    // public void StartPersistet(int persistTrun,CardBase card)
-    // {
-    //     InGameManager.Instance.CurrentTurn.Take(persistTrun)
-    //         .Subscribe(_ => card.PlayAdditionalEffect();
-    // }
+    
 }

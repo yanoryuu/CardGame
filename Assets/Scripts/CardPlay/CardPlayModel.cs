@@ -1,4 +1,4 @@
-using System;
+
 using System.Collections.Generic;
 using R3;
 using UnityEngine;
@@ -28,9 +28,6 @@ public class CardPlayModel
     private Subject<CardBase> onAddCard;
     public Observable<CardBase> OnAddCard => onAddCard;
     
-    // マナの最大値の最大値（例えば装備などで拡張できる最大上限）
-    private ReactiveProperty<int> manaMaxCap;
-    public ReactiveProperty<int> ManaMaxCap => manaMaxCap;
     // プレイヤーのステータス（ReactiveProperty使用）
     private PlayerParameterRuntime playerParameter;
     public PlayerParameterRuntime PlayerParameter => playerParameter;
@@ -46,7 +43,7 @@ public class CardPlayModel
         currentHoldCardIndex = new ReactiveProperty<int>(0);
         playedCards = new List<CardBase>();
         onAddCard = new Subject<CardBase>();
-        manaMaxCap = new ReactiveProperty<int>(CardPlayConst.maxManaCap);
+        
             
         playerParameter.ActionPoint.Value = 3; // 初期AP設定
         maxHoldCards = CardPlayConst.maxHoldCardNum;
@@ -74,20 +71,11 @@ public class CardPlayModel
         currentHoldCardIndex.Value--;
     }
 
-    // カードプレイ時の処理（マナ消費、AP消費、墓地送り）
+    // カードプレイ時の処理
     public void PlayCard(CardBase card, int playActionPoints)
     {
-        playerParameter.CurrentMana.Value -= card.CardData.playCostAffection;
         playerParameter.ActionPoint.Value -= playActionPoints;
         playedCards.Add(card);
-        
-        Debug.Log($"残りのMana: {playerParameter.CurrentMana.Value}");
-    }
-
-    // マナを増やす
-    public void AddMana(int affection)
-    {
-        playerParameter.CurrentMana.Value += affection;
     }
 
     // 行動ポイントを追加
@@ -100,8 +88,6 @@ public class CardPlayModel
     public void Initialize()
     {
         Debug.Log("Initialize");
-        playerParameter.MaxMana.Value = CardPlayConst.initMaxMana;
-        playerParameter.CurrentMana.Value = playerParameter.MaxMana.Value;
         playerParameter.ActionPoint.Value = 3;
     }
 }

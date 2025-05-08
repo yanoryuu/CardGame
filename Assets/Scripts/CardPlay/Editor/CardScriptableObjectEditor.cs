@@ -17,7 +17,8 @@ public class CardScriptableObjectEditor : Editor
         serializedObject.Update();
 
         // 共通プロパティの描画
-        EditorGUILayout.PropertyField(serializedObject.FindProperty("playCostAffection"));
+        // EditorGUILayout.PropertyField(serializedObject.FindProperty("playCostAffection"));
+        EditorGUILayout.PropertyField(serializedObject.FindProperty("cardName"));
         EditorGUILayout.PropertyField(serializedObject.FindProperty("playActionPoints"));
         EditorGUILayout.PropertyField(serializedObject.FindProperty("cardSprite"));
         EditorGUILayout.PropertyField(serializedObject.FindProperty("cardType"));
@@ -83,30 +84,18 @@ public class CardScriptableObjectEditor : Editor
 
         switch (cardType)
         {
-            case CardScriptableObject.cardTypes.ManaUp:
-                EditorGUILayout.PropertyField(serializedObject.FindProperty("affectionUpNum"));
+            case CardScriptableObject.cardTypes.Talk:
                 break;
-            case CardScriptableObject.cardTypes.ParameterChange:
+            case CardScriptableObject.cardTypes.Comment:
+                break;
+            case CardScriptableObject.cardTypes.Action:
+                break;
+            case CardScriptableObject.cardTypes.Psychic:
                 EditorGUILayout.PropertyField(serializedObject.FindProperty("addParameterNum"));
                 break;
-            case CardScriptableObject.cardTypes.ActionIncrease:
-                EditorGUILayout.PropertyField(serializedObject.FindProperty("addAP"));
+            case CardScriptableObject.cardTypes.Special:
                 break;
-            case CardScriptableObject.cardTypes.Debuff:
-            case CardScriptableObject.cardTypes.Persistent:
-                EditorGUILayout.PropertyField(serializedObject.FindProperty("keepTurns"));
-                break;
-            case CardScriptableObject.cardTypes.ReturnFromGrave:
-            case CardScriptableObject.cardTypes.Search:
-            case CardScriptableObject.cardTypes.NoAffectionPenalty:
-            case CardScriptableObject.cardTypes.HandSwap:
-            case CardScriptableObject.cardTypes.DrawAndTrash:
-                EditorGUILayout.PropertyField(serializedObject.FindProperty("searchCardType"));
-                break;
-            case CardScriptableObject.cardTypes.TrashDiscard:
-            case CardScriptableObject.cardTypes.CardExchange:
-            case CardScriptableObject.cardTypes.Dating:
-                EditorGUILayout.HelpBox("このカードタイプに特有の処理が必要です（個別フィールド未設定）", MessageType.Info);
+            case CardScriptableObject.cardTypes.Confession:
                 break;
         }
 

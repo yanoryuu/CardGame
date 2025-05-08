@@ -13,7 +13,10 @@ public class CardScriptableObject : ScriptableObject
     public List<AdditionalEffect> additionalEffect = new List<AdditionalEffect>();
     
     //プレイに必要な好感度
-    public int playCostAffection = 1;
+    // public int playCostAffection = 1;
+    
+    //カードの名前
+    public string cardName;
     
     //プレイに必要なアクションポイント
     public int playActionPoints = 1; 
@@ -50,28 +53,11 @@ public class CardScriptableObject : ScriptableObject
     [Serializable]
     public enum cardTypes
     {
-        Debuff,             // 弱体（デバフ）カード（＝ゴミカード）
-
-        // パラメータ・ステータス系
-        ManaUp,        // 好感度増加
-        ParameterChange,     // パラメータ上昇（弱・強）を包括
-        ActionIncrease,     // 行動回数を増やす
-
-        // 持続・状態系
-        Persistent,         // 持続型（ターン継続型など）
-        Dating,             // デートカード（特定条件で効果）
-
-        // 手札操作系
-        HandSwap,           // 手札入れ替え
-        DrawAndTrash,       // 1ドロー1デス（1枚引いて1枚捨て）
-        TrashDiscard,       // ゴミカードを捨てるカード
-        CardExchange,       // カード交換（他カードと交換）
-
-        // 墓地操作
-        ReturnFromGrave,    // 墓地カードを手札に戻す
-
-        // サポート・特殊
-        Search,             // サーチ（指定カード入手）
-        NoAffectionPenalty, // 次カードの好感度減少を防ぐ
+        Talk,     // パラメータ上昇（弱・強）を包括
+        Comment,
+        Action,
+        Psychic,
+        Special,
+        Confession
     }
 }
